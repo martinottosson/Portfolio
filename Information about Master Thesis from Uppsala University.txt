@@ -8,4 +8,8 @@ Title:
 The Earned Income Tax Credit and its effects on employment – a difference-in-differences analysis of the first three years of the reform
 
 Abstract:
-This study examines how the introduction of the Earned Income Tax Credit in 2007 and the two expansions in 2008-2009 affected the labor market in terms of employment, unemployment, long-term unemployment and employment in the 55-64 age group. Starting from an application of the consumption theory, with the labor supply in focus, a difference-in-differences analysis is made of the first three years of the reform in comparison with three years before its introduction. The results show that the introduction of the job tax credit has had a positive effect on the labor market in the form of a larger proportion of the population in work, while further steps of the job tax credit give estimates that indicate that the effect will be a reduced activity on the labor market.
+This study examines how the introduction of the Earned Income Tax Credit in 2007 and the two expansions in 2008-2009 affected the labor market in terms of employment, unemployment, 
+long-term unemployment and employment in the 55-64 age group. Starting from an application of the consumption theory, with the labor supply in focus, 
+a difference-in-differences analysis is made of the first three years of the reform in comparison with three years before its introduction. 
+The results show that the introduction of the job tax credit has had a positive effect on the labor market in the form of a larger proportion of the population in work, 
+while further steps of the job tax credit give estimates that indicate that the effect will be a reduced activity on the labor market.
