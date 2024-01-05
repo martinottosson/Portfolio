@@ -1,0 +1,357 @@
+---
+title: "Assignment 2 ANOVA"
+author: "Martin Ottosson"
+date: "2023-11-01"
+output:
+  pdf_document: default
+  word_document:
+    fig_height: 7
+    fig_width: 7
+---
+
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(Rcmdr) #this chunk start RCommander 
+library(ggplot2) #this cunks starts ggplot2
+#if you have used other packeges you may need to include them here
+library(flextable)                 
+library(xtable)
+library(esquisse)
+library(faraway)
+library(car)
+library(multcomp)
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#include a chunk that opens your indata
+borrelia <- read.table("C:/Users/mart0/OneDrive/Dokument/Martin/Södertörns högskola/Statistisk analys och visualisering i R - I/Part 4/Assignment 2/borrelia.txt", header = TRUE, sep = "\t", dec = ",")
+
+head(borrelia)
+
+str(borrelia)
+```
+
+
+## Introduction
+
+In the southern parts of the county of Stockholm and in the county of Sörmland there are large populations of ticks in the archipelago. These ticks carry the risk of borrelia transmission which could cause the disease Lyme borreliosis in humans.
+
+Data was collected in a study and samples were taken at three islands (Askö, Torö and Öja) and at each island samples were taken in three different habitats (forest, beach and meadow). Borrelia prevalence was calculated as percentage of ticks infested with borrelia at each sample site. Other measurements were also taken, but they are not part of this exercise.
+
+The aim of this assignment is to see whether there are any differences in means between the islands when it comes to borrelia prevalence and also if there are any differences between habitats or interactions between islands and habitats.
+
+
+## Method
+
+The methods used in the assignment are one-way and two-way ANOVA tests. One-way ANOVA (Analysis of Variance) tests are appropriate to use when examining differences between more than two groups and in this case the difference between three groups (islands) is being examined. Two-way ANOVA or Factorial Analysis of Variance is appropriate when looking at the difference between groups and there is more than one factor. In this case islands and habitats. With two-way ANOVA we can also look at the interactions between these factors.
+
+The borrelia dataset contains 90 observations Sample size with 30 observations per island separated in 3 habitats with 10 observations in each.
+
+Diagnostic plots will be evaluated in order to check the assumptions of normally distributed residuals and equal spread of residuals between groups. Tables of the ANOVA tests will be presented together with tables for ad hoc tests. Finally, plots will also be shown to allow for an easier interpretation of the results. 
+
+
+## Result
+
+### Part 1. One-way ANOVA
+
+Is there a difference in means of borrelia prevalence between the different islands Askö, Torö and Öja? As described in the introduction, Borrelia prevalence is the percentage of borrelia infested ticks at the time of measurement.
+
+
+Table 1 - First one-way ANOVA test of borrelia prevalence between islands
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+anova_test1 <- aov(Borrelia_prevalence ~ Island, data = borrelia)
+
+as_flextable(xtable(anova(anova_test1)))
+```
+The one-way ANOVA test shows a high F-value which is clearly significant. The p-value is close to zero.
+
+We can reject the null hypothesis that there is no difference between means and accept the research hypothesis that there is a difference between means of borrelia prevalence among the islands.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow=c(2,2))
+plot(anova_test1)
+
+```
+Figure 1 - Diagnostic plots of first ANOVA test
+
+
+The Residuals vs Fitted plot show the spread of the residuals for the three groups plotted at their mean values. There is a difference of the spread. It is not clear whether the spread of the biggest group is three times bigger than the spread of the smallest group, but a transformation of the data could be used in this case since it could be a sign of heteroscedasticity.
+
+It is also questionable if the residuals are approximately normally distributed since they do not follow the straight line in the Q-Q plot. 
+
+
+Table 2 - Second one-way ANOVA test of arcsine transformed borrelia prevalence between islands
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Creates a new variable in the borrelia dataset for arcsine transformed borrelia prevalence
+borrelia$borrelia.prev.arc <- asin(sqrt(borrelia$Borrelia_prevalence/100))
+
+# New ANOVA test with the arcsine transformed borrelia prevalence as response variable
+anova_test2  <- aov(borrelia.prev.arc ~ Island, data = borrelia)
+
+as_flextable(xtable(anova(anova_test2)))
+```
+The new ANOVA test also is clearly signficant for the F-test. There is a difference of means between the groups.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow=c(2,2))
+plot(anova_test2)
+```
+Figure 2 - Diagnostic plots of second ANOVA test
+
+
+The Residuals vs Fitted plot looks better after the transformation. The difference between the group with most spread of the residuals and the group with the least spread has diminshed. The Q-Q Residuals plot also looks better. Most of the points follow the straight line.
+
+Since we can assume that the assumptions of normal distribution for the residuals and homoscedasticity hold we can perform a post hoc test of pairwise comparisons to show where the differences are.
+
+
+Table 3 - Tukey HSD post hoc test for second one-way ANOVA test
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+TukeyHSD(anova_test2)
+```
+The post hoc test is now performed on transformed data and it shows signficant differences of means for all of the pairwise comparisons at the 0.05 level.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#esquisser()
+
+ggplot(borrelia) +
+ aes(x = Island, y = borrelia.prev.arc) +
+ geom_boxplot(fill = "#28D1D7") +
+ labs(x = "Island", 
+ y = "Arcsine transformed borrelia prevalence", title = "Boxplots of arcsine transformed borrelia prevalence", 
+ subtitle = "For the three islands Askö, Öja and Torö") +
+ theme_minimal() +
+ theme(plot.title = element_text(size = 16L), 
+ axis.title.y = element_text(size = 14L), axis.title.x = element_text(size = 14L))
+
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(borrelia) +
+ aes(x = Island, y = Borrelia_prevalence) +
+ geom_boxplot(fill = "#28D1D7") +
+ labs(x = "Island", 
+ y = "Borrelia prevalence", title = "Boxplots of borrelia prevalence", 
+ subtitle = "For the three islands Askö, Öja and Torö") +
+ theme_minimal() +
+ theme(plot.title = element_text(size = 16L), 
+ axis.title.y = element_text(size = 14L), axis.title.x = element_text(size = 14L))
+```
+Figure 3 and 4 - Boxplots of borrelia prevalence without and with arcsine transformation
+
+
+The boxplot shows the differences of borrelia prevalence between the islands and for easier interpretation a boxplot is also included without the arcsine transformation. The smallest difference is between Torö and Askö, but there is still a significant difference with a slightly higher mean for Askö. Both Torö and Askö clearly have a higher proportion of borrelia infested ticks compared to Öja. The Residuals vs Fitted plot for the first ANOVA test showed a mean just above 10% for Öja, around 40% for Torö and above 50% for Askö, which is quite a lot. 
+
+
+### Part 2. Two-way ANOVA with interaction
+
+Is there a difference in means of borrelia prevalence between the different islands Askö, Torö and Öja and the habitat types meadow, beach and forest? Are there any interactions?
+
+First a linear model is created.
+
+Table 4 - Linear model
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+lm_borrelia<-lm(Borrelia_prevalence ~ Island * Habitat, borrelia) 
+summary(lm_borrelia)
+
+```
+The linear model is hard to interpret, but we can use diagnostic plots to check the assumptions.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow=c(2,2)) #setting to make the following plot to show as a 2x2 multiplot
+plot(lm_borrelia)
+
+```
+
+Figure 5 - Diagnostic plots for linear model
+
+The Residuals vs Fitted plots shows spread of dispersions between the groups. The spread could be three times the size for the biggest group compared to the smallest group and therefore heterskedasticity could be a problem. The Q-Q plot also shows that the assumption of approximately normally distributed residuals could be doubted. The points do not follow the straight line strictly. 
+
+Since the assumptions are doubtful we will repeat the process again with the arcsine transformation.
+
+Table 5 - Linear model with arcsine transformation 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+lm_borrelia2<-lm(borrelia.prev.arc ~ Island * Habitat, borrelia) 
+summary(lm_borrelia2)
+```
+The ouput is hard to interpret as previously stated, but we will look at the diagnostic plots again now with the arcsine transformation of the borrelia prevalence.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+par(mfrow=c(2,2)) 
+plot(lm_borrelia2)
+```
+Figure 6 - Diagnostic plots for the linear model with arcsine transformation
+
+After transformation of the borrelia prevalence variable the diagnostic plot looks better with smaller differences in the dispersion of the residuals between the groups and the assumption about normality also seem to hold.
+
+Table 6 - Two-way ANOVA table with arcsine transformed borrelia prevalence as response and island and habitat as factors
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Anova(lm_borrelia2)
+```
+To create a more comprehensible output we can use an Anova table as in table 6. It shows a significant main effect for island and an interaction effect for island and habitat.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# This is another way of doing the same two-way ANOVA test
+Anova_test3 <- aov(borrelia.prev.arc ~ Island + Habitat + Island*Habitat, data = borrelia)
+summary(Anova_test3)
+```
+As there are significant effects a post hoc test is performed in order to understand where the differences are found.
+
+Table 7 - Post Hoc test for two-way ANOVA
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+TukeyHSD(Anova_test3)
+```
+As table 5 shows there are many comparisons done in the Tukey post hoc test. There seem to be 16 significant effects at the 0.05 level. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+interaction.plot(x.factor = borrelia$Habitat,
+                 trace.factor = borrelia$Island,
+                 response = borrelia$borrelia.prev.arc,
+                 fun = mean,
+                 type = "b",
+                 legend = TRUE,
+                 xlab = "Habitat",
+                 ylab = "Mean of arcsine transformed borrelia prevalence")
+```
+Figure 7 - Interaction plot for two-way ANOVA test
+
+An interaction plot makes it easier to see what is going on. First of all there seem to be clear differences between the islands when it comes to borrelia prevalence on beaches. The Tukey multiple comparisons of means shows a clear significant difference between Askö and Öja. Torö and Öja are also significant, but Torö and Askö comes close to be signficant but has to accept the null hypothesis of no difference at the 0.05 level. Since there are interaction effects which table 5 shows, we should be careful with the main effects and only consider the clear significant comparisons.
+
+
+In forests there is also a clear difference between Öja and Askö, supported by table 5. Torö and Öja also show a significant difference.
+
+In meadows there are differences between Askö and Öja as well as between Torö and Öja. In meadows Torö takes the first place when it comes to having the highest proportion of infested ticks.
+
+For the interaction effects, with different habits, there are several comparisons with very low p-values as can be seen in table 7. None of the confidence intervals covers 0 in these cases and we can be confident to say there is an actual difference in borrelia prevalence. Some examples of the biggest differences are found between Öja:Forest - Askö:Beach, Askö:Forest - Öja:Beach and Torö:Meadow - Öja:Beach.
+
+
+## Discussion
+
+This study aimed to find out if there are any differences of borrelia prevalence between three different islands in the Stockholm and Sörmland archipelago. The results from the one-way ANOVA test showed a significant differences between all of the three islands. Askö and Torö have bigger problems with higher proportions of infested ticks which could spread borrelia to humans.
+
+The study also aimed at finding out if there are any differences between habitats and if there are any interaction effects between habitats and islands. Even though we can not say that habitats in itself show a main effect for borrelia prevalence, the two-way ANOVA test showed there is a main effect for island and an interaction effect for island and habitat.
+
+The results showed differences for combinations of habitats and islands, where some of the biggest differences were between Öja:Beach - Askö:Beach, Öja:Forest - Askö:Forest, Öja:Forest - Askö:Beach, Askö:Forest - Öja:Beach and Torö:Meadow - Öja:Beach.
+
+It is commonly known in Sweden to inspect oneself for ticks after a visit in the nature. Especially during summer in the archipelago. The findings of this study could add to current knowledge that Öja might be a safer island to visit. However, one does not need to avoid the other two islands, but when visiting Askö then the meadow could be a better choice for the picknick location and while going to Torö the meadow might be better to avoid. It would be nicer to go to the beach and look at the big waves which Torö is famous for. With that being said, the study could not show a main effect for habits in the two-way ANOVA as already being mentioned, but the interaction plot showed some indications for the habits.
+
+The findings of the study relies on the arcsine transformation of borrelia prevalence in order for the linear model assumptions to hold. Some researchers advise against this kind of transformation (Warton and Hui, 2011) and the interpretation of the results become more difficult with this kind of transformation. This is a limitation for this study.
+
+A strenth of the study is the use of the well proven ANOVA test. With the two-way ANOVA test we can find out about interactions that we could never find with a simpler t-test for differences of means between two groups. This is a strength of the study. There were also some highly significant results and we can be confident in out rejections of the null hypothesis.
+
+Another limitation though would be that there is only 10 observations for each habitat per island. An improvement could be to increase the sample size for each group.
+
+Finally, we can be confident to say that there are differences in the borrelia prevalence between islands in the archipelago and there is an interaction with different habitats. This study makes it easier for visitors in the archipelago to know when extra precaution is needed.
+
+## References
+
+Warton and Hui, 2011. The arcsine is asinine: the analysis of proportions in ecology. Published in Ecology by the Ecological Society of America.
+
+## Appendix
+
+In this appendix the R code from the study is presented.
+
+library(Rcmdr) #this chunk start RCommander: 
+library(ggplot2) #this cunks starts ggplot2:
+#if you have used other packeges you may need to include them here:
+library(flextable)                 
+library(xtable)
+library(esquisse)
+library(faraway)
+library(car)
+library(multcomp)
+
+#include a chunk that opens your indata:
+borrelia <- read.table("C:/Users/mart0/OneDrive/Dokument/Martin/Södertörns högskola/Statistisk analys och visualisering i R - I/Part 4/Assignment 2/borrelia.txt", header = TRUE, sep = "\t", dec = ",")
+
+head(borrelia)
+
+str(borrelia)
+
+### Table 1
+anova_test1 <- aov(Borrelia_prevalence ~ Island, data = borrelia)
+
+as_flextable(xtable(anova(anova_test1)))
+
+### Figure 1
+par(mfrow=c(2,2))
+plot(anova_test1)
+
+### Table 2
+Creates a new variable in the borrelia dataset for arcsine transformed borrelia prevalence:
+borrelia$borrelia.prev.arc <- asin(sqrt(borrelia$Borrelia_prevalence/100))
+
+New ANOVA test with the arcsine transformed borrelia prevalence as response variable:
+anova_test2  <- aov(borrelia.prev.arc ~ Island, data = borrelia)
+
+as_flextable(xtable(anova(anova_test2)))
+
+### Figure 2
+par(mfrow=c(2,2))
+plot(anova_test2)
+
+### Table 3
+TukeyHSD(anova_test2)
+
+### Figure 3 and 4
+#esquisser()
+
+ggplot(borrelia) +
+ aes(x = Island, y = borrelia.prev.arc) +
+ geom_boxplot(fill = "#28D1D7") +
+ labs(x = "Island", 
+ y = "Arcsine transformed borrelia prevalence", title = "Boxplots of arcsine transformed borrelia prevalence", 
+ subtitle = "For the three islands Askö, Öja and Torö") +
+ theme_minimal() +
+ theme(plot.title = element_text(size = 16L), 
+ axis.title.y = element_text(size = 14L), axis.title.x = element_text(size = 14L))
+ 
+ ggplot(borrelia) +
+ aes(x = Island, y = Borrelia_prevalence) +
+ geom_boxplot(fill = "#28D1D7") +
+ labs(x = "Island", 
+ y = "Borrelia prevalence", title = "Boxplots of borrelia prevalence", 
+ subtitle = "For the three islands Askö, Öja and Torö") +
+ theme_minimal() +
+ theme(plot.title = element_text(size = 16L), 
+ axis.title.y = element_text(size = 14L), axis.title.x = element_text(size = 14L))
+ 
+ ### Table 4:
+ lm_borrelia<-lm(Borrelia_prevalence ~ Island * Habitat, borrelia) 
+summary(lm_borrelia)
+
+### Figure 5
+par(mfrow=c(2,2)) #setting to make the following plot to show as a 2x2 multiplot
+plot(lm_borrelia)
+
+### Table 5
+lm_borrelia2<-lm(borrelia.prev.arc ~ Island * Habitat, borrelia) 
+summary(lm_borrelia2)
+
+### Figure 6
+par(mfrow=c(2,2)) 
+plot(lm_borrelia2)
+
+### Table 6
+Anova(lm_borrelia2)
+
+This is another way of doing the same two-way ANOVA test:
+Anova_test3 <- aov(borrelia.prev.arc ~ Island + Habitat + Island*Habitat, data = borrelia)
+summary(Anova_test3)
+
+### Table 7
+TukeyHSD(Anova_test3)
+
+### Figure 7
+interaction.plot(x.factor = borrelia$Habitat,
+                 trace.factor = borrelia$Island,
+                 response = borrelia$borrelia.prev.arc,
+                 fun = mean,
+                 type = "b",
+                 legend = TRUE,
+                 xlab = "Habitat",
+                 ylab = "Mean of arcsine transformed borrelia prevalence")
