@@ -4,9 +4,18 @@ Hello!
 
 Please feel free to check out my portfolio!
 
-The hands-on labs (number 0-7) are part of the Data Science Capstone Project. I have also added the final report for the Capstone Project, the diploma for the IBM Data Science Professional Certificate and the final project from the course Machine Learning with Python.
+0-7 Data Science/Machine Learning with Python in Jupyter Notebooks
+The hands-on labs (number 0-7) are part of the Data Science Capstone Project (Python code in Jupyter Notebooks). 
+I have also added the final report for the Capstone Project, the diploma for the IBM Data Science Professional Certificate and the final project from the course Machine Learning with Python.
 
+8 Power BI
 I made a dashboard with Power BI (number 8) presenting findings from an online survey taken by data professionals in 2022 (data source: Alex the Analyst Youtube channel). Download the file or take a look at the screenshot. 
+
+9-11 Statistical Analysis and Visualization with R
+Number 9-10 are statistical analyses made in RStudio with two files per project; the R code and a report. 
+Number 9 covers Spearman's rank correlation, simple linear regression analysis, Wilcoxon's rank-sum test and a paired t-test for testing differences between groups.
+Number 10 is a project with a one-way ANOVA for testing differences between means and a two-way ANOVA test with interactions.
+Number 11 are two non-parametric Chi-square tests for associations.
 
 In the portfolio you can also find a copy of the first page of my Master Degree Certificate (I can send the full version if requested) and you can find my Master Thesis from Uppsala University. It is written in Swedish. There are also official transcript of records for courses taken after graduation.
 
