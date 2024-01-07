@@ -23,7 +23,7 @@ Number 11 are two non-parametric Chi-square tests for associations.
 12-13 Econometrics with SAS
 
 Number 12 is a report with simple and multiple linear regression models made in SAS.
-Number 13 are analyzes of time series data using an exponential smoothing method and an ARIMA model made in SAS.
+Number 13 are analyses of time series data using an exponential smoothing method and an ARIMA model made in SAS.
 
 In the portfolio you can also find a copy of the first page of my Master Degree Certificate (I can send the full version if requested) and you can find my Master Thesis from Uppsala University. It is written in Swedish. There are also official transcript of records for courses taken after graduation.
 
