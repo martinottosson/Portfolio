@@ -6,8 +6,8 @@ Please feel free to check out my portfolio!
 
 0-7 Data Science/Machine Learning with Python in Jupyter Notebooks
 
-The hands-on labs (number 0-7) are part of the Data Science Capstone Project (Python code in Jupyter Notebooks). 
-I have also added the final report for the Capstone Project (number 1), the diploma for the IBM Data Science Professional Certificate and the final project from the course Machine Learning with Python.
+The hands-on labs (number 1-7) are part of the Data Science Capstone Project (Python code in Jupyter Notebooks). 
+I have also added the final report for the Capstone Project (number 1), the diploma for the IBM Data Science Professional Certificate and the final project from the course Machine Learning with Python (number 0).
 
 8 Power BI
 
