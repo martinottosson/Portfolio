@@ -26,6 +26,7 @@ Number 12 is a report with simple and multiple linear regression models made in 
 Number 13 are analyses of time series data using an exponential smoothing method and an ARIMA model made in SAS.
 
 14 Java
+
 This is a Java program with a bidding system for real estate. At the start, the program prints a menu with options that can be selected by the user. 
 
 
