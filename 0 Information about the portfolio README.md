@@ -29,6 +29,12 @@ Number 13 are analyses of time series data using an exponential smoothing method
 
 This is a Java program with a bidding system for real estate. At the start, the program prints a menu with options that can be selected by the user. 
 
+15-16 Statistical Analysis and Visualization with R
+
+Number 15 is the final project for the first course Statistical Analysis and Visualization in R: I. The methods used in the project are:
+Spearman’s rank correlation, a test of difference between groups with the Wilcoxon signed rank test, Shapiro-Wilk normality test, testing differences of more than two groups was made with the Kruskal-Wallis rank sum test, transformations (arcsine, log10 and square root transformation) and a chi-squared test and a Fisher’s exact test.
+
+Number 16 is a paper with generalized linear models (GLM) with Poisson regression models and Logistic regression models.
 
 In the portfolio you can also find a copy of the first page of my Master Degree Certificate (I can send the full version if requested) and you can find my Master Thesis from Uppsala University. It is written in Swedish. There are also official transcript of records for courses taken after graduation.
 
