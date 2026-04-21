@@ -1,6 +1,6 @@
 Public reports to the Consumer Price Index Board in Sweden
 
-The reports were published in Swedish between the years 2020-2024 and can be downloaded here 
+The reports were published in Swedish between the years 2020-2025 and can be downloaded here 
 https://scb.se/om-scb/scbs-verksamhet/rad-och-namnder/namnden-for-konsumentprisindex/underlag-namnden-for-konsumentprisindex/
 (or use the URLs below): 
 
@@ -11,6 +11,10 @@ https://scb.se/contentassets/1b48f2064ebd46a78eda4d68d51c0403/16/uppfoljning-av-
 Price index for mobile phones and computers with a fixed basket
 (Prisindex för mobiltelefoner och datorer med fast korg)
 https://scb.se/contentassets/1b48f2064ebd46a78eda4d68d51c0403/prisindex-for-mobiltelefoner-och-datorer-med-fast-korg.pdf
+
+Conditions for new transaction data
+(Förutsättningar för nya kassaregisterdata)
+https://www.scb.se/contentassets/1b48f2064ebd46a78eda4d68d51c0403/21/forutsattningar-for-nya-kassaregisterdata.pdf
 
 Quality assessment report 2023
 (Kvalitetsvärderingsrapport 2023)
